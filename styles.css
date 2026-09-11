@@ -188,9 +188,9 @@ h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h4);
 }
 
 /* ---------- Hero ---------- */
-:root { --strip-h: 230px; }
-@media (min-width: 640px)  { :root { --strip-h: 300px; } }
-@media (min-width: 1024px) { :root { --strip-h: 360px; } }
+:root { --strip-h: 280px; }
+@media (min-width: 640px)  { :root { --strip-h: 360px; } }
+@media (min-width: 1024px) { :root { --strip-h: 440px; } }
 
 .hero { padding-block: 0 var(--s-3xl); position: relative; }
 .hero::after {
@@ -200,8 +200,8 @@ h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h4);
   pointer-events: none;
 }
 /* pulled up so the copy sits over the bottom of the frames */
-.hero-copy { position: relative; z-index: 2; margin-top: -56px; }
-@media (min-width: 768px) { .hero-copy { margin-top: -88px; } }
+.hero-copy { position: relative; z-index: 2; margin-top: -48px; }
+@media (min-width: 768px) { .hero-copy { margin-top: -72px; } }
 
 .hero h1 { max-width: 16ch; }
 .hero .lead { margin-top: var(--s-lg); max-width: 58ch; }
@@ -218,20 +218,24 @@ h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h4);
 
 /* ---------- Photo strip ----------
    Fixed height, natural widths. The mixed ratios (3:2, 4:5, 1:1) become the
-   rhythm of the strip instead of a cropping problem. Runs full bleed, drifts
-   on its own via JS, and stays an ordinary scroll container so it can be
-   dragged or swiped. */
+   rhythm of the strip instead of a cropping problem.
+
+   Driven by transform, not scrollLeft. Every browser rounds scrollLeft to whole
+   pixels (setting 10.5 reads back 11, and += 0.35 never moves at all), so a
+   scroll-driven drift can only ever step a pixel at a time. Transform is
+   subpixel and composited, so it glides. Dragging is handled in JS for the
+   same reason. */
 .strip-wrap { position: relative; }
 
 .strip {
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-x: contain;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  overflow: hidden;
+  /* browser keeps vertical panning, we take horizontal */
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
 }
-.strip::-webkit-scrollbar { display: none; }
+.strip.dragging { cursor: grabbing; }
 .strip:focus-visible { outline: 2px solid var(--signal); outline-offset: -2px; }
 
 .track {
@@ -239,6 +243,8 @@ h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h4);
   gap: var(--s-xs);
   width: max-content;
   padding-inline: var(--s-xs);
+  /* JS drives this every frame. Subpixel and composited, so it glides. */
+  transform: translate3d(0, 0, 0);
 }
 
 .slide {
@@ -249,7 +255,15 @@ h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h4);
   overflow: hidden;
   background: var(--ink-3);
 }
-.slide img { height: 100%; width: auto; display: block; }
+.slide img {
+  height: 100%;
+  width: auto;
+  display: block;
+  /* the strip handles the gesture, so the image must not start a native drag */
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
 
 /* Height is fixed and the ratio is declared, so each frame's width is known
    before its image arrives. Without these the strip reflows as photos load. */
@@ -261,13 +275,14 @@ h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h4);
 .strip-fade {
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  height: 58%;
+  height: 38%;
   pointer-events: none;
   background: linear-gradient(
     to bottom,
     rgba(10, 10, 10, 0) 0%,
-    rgba(10, 10, 10, 0.55) 42%,
-    rgba(10, 10, 10, 0.92) 76%,
+    rgba(10, 10, 10, 0.28) 38%,
+    rgba(10, 10, 10, 0.82) 72%,
+    rgba(10, 10, 10, 0.98) 92%,
     var(--ink) 100%
   );
 }

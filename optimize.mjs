@@ -42,16 +42,16 @@ const jobs = [
   // Six grid tiles.
   { in: "sample-evo.jpg",        out: "evo",         w: 1100, q: 74 },
   { in: "sample-evo.jpg",        out: "evo-sm",      w:  560, q: 72 },
-  { in: "sample-bathroom.jpg",   out: "bathroom",    w: 1100, q: 80 },
-  { in: "sample-bathroom.jpg",   out: "bathroom-sm", w:  560, q: 78 },
+  { in: "sample-bathroom.jpg",   out: "bathroom",    w: 1400, q: 80 },
+  { in: "sample-bathroom.jpg",   out: "bathroom-sm", w:  700, q: 78 },
   { in: "sample-headlight.jpg",  out: "headlight",   w: 1100, q: 76 },
   { in: "sample-headlight.jpg",  out: "headlight-sm",w:  560, q: 74 },
-  { in: "sample-livingroom.jpg", out: "living",      w: 1100, q: 76 },
-  { in: "sample-livingroom.jpg", out: "living-sm",   w:  560, q: 76 },
+  { in: "sample-livingroom.jpg", out: "living",      w: 1400, q: 76 },
+  { in: "sample-livingroom.jpg", out: "living-sm",   w:  700, q: 76 },
   { in: "sample-cayman.jpg",     out: "cayman",      w: 1100, q: 74 },
   { in: "sample-cayman.jpg",     out: "cayman-sm",   w:  560, q: 72 },
-  { in: "sample-exterior.jpg",   out: "exterior",    w: 1100, q: 74 },
-  { in: "sample-exterior.jpg",   out: "exterior-sm", w:  560, q: 72 },
+  { in: "sample-exterior.jpg",   out: "exterior",    w: 1400, q: 74 },
+  { in: "sample-exterior.jpg",   out: "exterior-sm", w:  700, q: 72 },
 ];
 
 let total = 0;
