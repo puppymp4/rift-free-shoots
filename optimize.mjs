@@ -7,6 +7,20 @@
 // If king-cuts ever loses its node_modules, `npm i sharp` here and the fallback picks it up.
 //
 // Sources are full-res camera files and are gitignored. Only the WebP output ships.
+//
+// GALLERY ORDER (index.html depends on it): kitchen leads as a full-width band, then the
+// six grid tiles alternate subject so no two shots of the same kind touch, in any direction.
+//
+//   band   kitchen    interior
+//   row A  evo        automotive
+//          bathroom   interior
+//          headlight  automotive detail
+//   row B  living     interior
+//          cayman     automotive
+//          exterior   property
+//
+// Grid tiles render at about 357px on desktop, so 1100w covers retina. The band spans the
+// full 1120px container, so it gets more.
 
 import { existsSync, statSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -21,19 +35,23 @@ try {
 }
 
 const jobs = [
-  // Portrait anchor tile. Spans two rows on desktop, so it is generated tall.
-  { in: "sample-evo.jpg",        out: "evo",        w: 1100, q: 74 },
-  { in: "sample-evo.jpg",        out: "evo-sm",     w:  550, q: 72 },
+  // Feature band, full container width.
+  { in: "sample-kitchen.jpg",    out: "kitchen",     w: 1600, q: 76 },
+  { in: "sample-kitchen.jpg",    out: "kitchen-sm",  w:  900, q: 74 },
 
-  // Two interiors, stacked beside the anchor at 3:2.
-  { in: "sample-bathroom.jpg",   out: "bathroom",   w: 1200, q: 80 },
-  { in: "sample-bathroom.jpg",   out: "bathroom-sm",w:  600, q: 78 },
-  { in: "sample-livingroom.jpg", out: "living",     w: 1200, q: 76 },
-  { in: "sample-livingroom.jpg", out: "living-sm",  w:  600, q: 78 },
-
-  // Full-width band under the grid, so it needs the widest source.
-  { in: "sample-exterior.jpg",   out: "exterior",   w: 1600, q: 72 },
-  { in: "sample-exterior.jpg",   out: "exterior-sm",w:  900, q: 72 },
+  // Six grid tiles.
+  { in: "sample-evo.jpg",        out: "evo",         w: 1100, q: 74 },
+  { in: "sample-evo.jpg",        out: "evo-sm",      w:  560, q: 72 },
+  { in: "sample-bathroom.jpg",   out: "bathroom",    w: 1100, q: 80 },
+  { in: "sample-bathroom.jpg",   out: "bathroom-sm", w:  560, q: 78 },
+  { in: "sample-headlight.jpg",  out: "headlight",   w: 1100, q: 76 },
+  { in: "sample-headlight.jpg",  out: "headlight-sm",w:  560, q: 74 },
+  { in: "sample-livingroom.jpg", out: "living",      w: 1100, q: 76 },
+  { in: "sample-livingroom.jpg", out: "living-sm",   w:  560, q: 76 },
+  { in: "sample-cayman.jpg",     out: "cayman",      w: 1100, q: 74 },
+  { in: "sample-cayman.jpg",     out: "cayman-sm",   w:  560, q: 72 },
+  { in: "sample-exterior.jpg",   out: "exterior",    w: 1100, q: 74 },
+  { in: "sample-exterior.jpg",   out: "exterior-sm", w:  560, q: 72 },
 ];
 
 let total = 0;

@@ -210,9 +210,10 @@ h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h4);
 .trust-line li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--signal); flex: none; }
 
 /* ---------- Sample gallery ----------
-   Mobile: one column, each frame at its own ratio.
-   Desktop: the portrait anchor spans two rows beside the stacked interiors,
-   with the exterior running full width underneath. */
+   The kitchen leads as a full-width band, then six tiles alternate subject so no
+   two shots of the same kind sit next to each other, across or down.
+   Phone: one column, every frame at its own ratio, nothing cropped.
+   Tablet and up: tiles share one ratio so the grid reads as a set. */
 .gallery { display: grid; gap: var(--s-sm); margin-top: var(--s-2xl); }
 
 .tile {
@@ -224,19 +225,27 @@ h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h4);
 }
 .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-.t-evo    { aspect-ratio: 4 / 5; }
-.t-bath,
-.t-living { aspect-ratio: 3 / 2; }
-.t-ext    { aspect-ratio: 3 / 2; }
-.t-ext img { object-position: center 45%; }
+/* phone: native ratios */
+.t-band, .t-bath, .t-living, .t-ext { aspect-ratio: 3 / 2; }
+.t-evo, .t-cayman { aspect-ratio: 4 / 5; }
+.t-head { aspect-ratio: 1 / 1; }
 
-@media (min-width: 768px) {
+/* keep the subject in frame once the tiles crop */
+.t-evo img    { object-position: center 62%; }
+.t-cayman img { object-position: center 58%; }
+.t-head img   { object-position: center 55%; }
+.t-ext img    { object-position: center 36%; }
+.t-band img   { object-position: center 55%; }
+
+@media (min-width: 640px) {
   .gallery { grid-template-columns: 1fr 1fr; gap: var(--s-md); }
-  /* height comes from the two stacked interiors, so the anchor drops its ratio */
-  .t-evo    { grid-column: 1; grid-row: 1 / span 2; aspect-ratio: auto; }
-  .t-bath   { grid-column: 2; grid-row: 1; }
-  .t-living { grid-column: 2; grid-row: 2; }
-  .t-ext    { grid-column: 1 / -1; grid-row: 3; aspect-ratio: 16 / 9; }
+  .t-band { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+  .t-evo, .t-bath, .t-head,
+  .t-living, .t-cayman, .t-ext { aspect-ratio: 4 / 3; }
+}
+
+@media (min-width: 1024px) {
+  .gallery { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* ---------- The deal (compact row) ---------- */
