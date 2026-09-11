@@ -207,7 +207,7 @@ h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h4);
   list-style: none; padding: 0;
 }
 .trust-line li { display: flex; align-items: center; gap: var(--s-xs); }
-.trust-line li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--signal); flex: none; }
+.trust-line li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--signal); flex: none; }
 
 /* ---------- The trade (two cards) ---------- */
 .trade-grid { display: grid; gap: var(--s-md); margin-top: var(--s-2xl); }
