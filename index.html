@@ -29,6 +29,9 @@
   <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap">
 </noscript>
 
+<!-- First frame in the strip is the LCP candidate -->
+<link rel="preload" as="image" href="/images/samples/kitchen.webp" fetchpriority="high">
+
 <link rel="stylesheet" href="/styles.css">
 
 <!-- Flag JS before first paint. Scroll reveals only hide content when JS can un-hide it. -->
@@ -74,9 +77,80 @@
 
 <main id="main" tabindex="-1">
 
-  <!-- ================= HERO ================= -->
+  <!-- ================= HERO =================
+       The strip drifts sideways on its own and is also a plain scroll
+       container, so it can be dragged, swiped or arrowed through. Order
+       alternates subject so no two shots of the same kind sit side by side:
+       interior, auto, interior, auto detail, interior, auto, property. -->
   <section class="hero">
-    <div class="wrap">
+
+    <div class="strip-wrap">
+      <div class="strip" id="strip" tabindex="0" role="region"
+           aria-label="Recent photos. Scroll sideways to see more.">
+        <div class="track" id="track">
+
+          <figure class="slide s-wide">
+            <img src="/images/samples/kitchen.webp"
+                 srcset="/images/samples/kitchen-sm.webp 900w, /images/samples/kitchen.webp 1600w"
+                 sizes="(min-width: 1024px) 540px, (min-width: 640px) 450px, 330px"
+                 width="1600" height="1067" fetchpriority="high" decoding="async"
+                 alt="Galley kitchen with white cabinets, tile counters and a brick floor.">
+          </figure>
+
+          <figure class="slide s-tall">
+            <img src="/images/samples/evo.webp"
+                 srcset="/images/samples/evo-sm.webp 560w, /images/samples/evo.webp 1100w"
+                 sizes="(min-width: 1024px) 288px, (min-width: 640px) 240px, 176px"
+                 width="1100" height="1375" decoding="async"
+                 alt="Modified Mitsubishi Lancer Evolution in sage green, shot head on at golden hour.">
+          </figure>
+
+          <figure class="slide s-wide">
+            <img src="/images/samples/bathroom.webp"
+                 srcset="/images/samples/bathroom-sm.webp 560w, /images/samples/bathroom.webp 1100w"
+                 sizes="(min-width: 1024px) 540px, (min-width: 640px) 450px, 330px"
+                 width="1100" height="733" loading="lazy" decoding="async"
+                 alt="Renovated bathroom with a dark wood vanity, white walls and grey tile floor.">
+          </figure>
+
+          <figure class="slide s-square">
+            <img src="/images/samples/headlight.webp"
+                 srcset="/images/samples/headlight-sm.webp 560w, /images/samples/headlight.webp 1100w"
+                 sizes="(min-width: 1024px) 360px, (min-width: 640px) 300px, 220px"
+                 width="1100" height="1100" loading="lazy" decoding="async"
+                 alt="Close up of a detailer wiping a headlight with an orange microfiber cloth.">
+          </figure>
+
+          <figure class="slide s-wide">
+            <img src="/images/samples/living.webp"
+                 srcset="/images/samples/living-sm.webp 560w, /images/samples/living.webp 1100w"
+                 sizes="(min-width: 1024px) 540px, (min-width: 640px) 450px, 330px"
+                 width="1100" height="733" loading="lazy" decoding="async"
+                 alt="Empty carpeted living room with a ceiling fan and afternoon light across the floor.">
+          </figure>
+
+          <figure class="slide s-tall">
+            <img src="/images/samples/cayman.webp"
+                 srcset="/images/samples/cayman-sm.webp 560w, /images/samples/cayman.webp 1100w"
+                 sizes="(min-width: 1024px) 288px, (min-width: 640px) 240px, 176px"
+                 width="1100" height="1375" loading="lazy" decoding="async"
+                 alt="Black Porsche Cayman parked nose out on the apron in front of a shop unit.">
+          </figure>
+
+          <figure class="slide s-wide">
+            <img src="/images/samples/exterior.webp"
+                 srcset="/images/samples/exterior-sm.webp 560w, /images/samples/exterior.webp 1100w"
+                 sizes="(min-width: 1024px) 540px, (min-width: 640px) 450px, 330px"
+                 width="1100" height="733" loading="lazy" decoding="async"
+                 alt="Single storey home seen from the street, with a water tower rising behind it.">
+          </figure>
+
+        </div>
+      </div>
+      <div class="strip-fade" aria-hidden="true"></div>
+    </div>
+
+    <div class="wrap hero-copy">
       <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Fresno and Clovis &middot; 2 spots</p>
       <h1 class="display">Free photos for your business.</h1>
       <p class="lead">
@@ -91,64 +165,6 @@
       <div class="cta-row">
         <a class="btn btn-primary" href="#apply">Apply for a spot</a>
         <a class="btn btn-ghost" href="https://rift.clb.riftmedia.cc" target="_blank" rel="noopener">See my work</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= SAMPLES ================= -->
-  <section id="work">
-    <div class="wrap">
-      <h2 class="display reveal">Recent frames.</h2>
-      <div class="gallery">
-        <figure class="tile t-band reveal">
-          <img src="/images/samples/kitchen.webp"
-               srcset="/images/samples/kitchen-sm.webp 900w, /images/samples/kitchen.webp 1600w"
-               sizes="100vw"
-               width="1600" height="1067" loading="lazy" decoding="async"
-               alt="Galley kitchen with white cabinets, tile counters and a brick floor, looking down the hallway.">
-        </figure>
-        <figure class="tile t-evo reveal">
-          <img src="/images/samples/evo.webp"
-               srcset="/images/samples/evo-sm.webp 560w, /images/samples/evo.webp 1100w"
-               sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-               width="1100" height="1375" loading="lazy" decoding="async"
-               alt="Modified Mitsubishi Lancer Evolution in sage green, shot head on at golden hour.">
-        </figure>
-        <figure class="tile t-bath reveal">
-          <img src="/images/samples/bathroom.webp"
-               srcset="/images/samples/bathroom-sm.webp 560w, /images/samples/bathroom.webp 1100w"
-               sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-               width="1100" height="733" loading="lazy" decoding="async"
-               alt="Renovated bathroom with a dark wood vanity, white walls and grey tile floor.">
-        </figure>
-        <figure class="tile t-head reveal">
-          <img src="/images/samples/headlight.webp"
-               srcset="/images/samples/headlight-sm.webp 560w, /images/samples/headlight.webp 1100w"
-               sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-               width="1100" height="1100" loading="lazy" decoding="async"
-               alt="Close up of a detailer wiping a headlight with an orange microfiber cloth, hood open behind.">
-        </figure>
-        <figure class="tile t-living reveal">
-          <img src="/images/samples/living.webp"
-               srcset="/images/samples/living-sm.webp 560w, /images/samples/living.webp 1100w"
-               sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-               width="1100" height="733" loading="lazy" decoding="async"
-               alt="Empty carpeted living room with a ceiling fan and afternoon light across the floor.">
-        </figure>
-        <figure class="tile t-cayman reveal">
-          <img src="/images/samples/cayman.webp"
-               srcset="/images/samples/cayman-sm.webp 560w, /images/samples/cayman.webp 1100w"
-               sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-               width="1100" height="1375" loading="lazy" decoding="async"
-               alt="Black Porsche Cayman parked nose out on the apron in front of a shop unit.">
-        </figure>
-        <figure class="tile t-ext reveal">
-          <img src="/images/samples/exterior.webp"
-               srcset="/images/samples/exterior-sm.webp 560w, /images/samples/exterior.webp 1100w"
-               sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-               width="1100" height="733" loading="lazy" decoding="async"
-               alt="Single storey home seen from the street, with a water tower rising behind it.">
-        </figure>
       </div>
     </div>
   </section>
@@ -325,6 +341,78 @@
   document.getElementById("year").textContent = new Date().getFullYear();
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* =======================================================================
+     Photo strip. Drifts on its own, and stays an ordinary scroll container
+     so it can be dragged, swiped, trackpad-scrolled, or tabbed to and
+     arrowed through. Any interaction holds it still, and it picks the drift
+     back up once you stop.
+     ======================================================================= */
+  (function strip() {
+    var el = document.getElementById("strip");
+    var track = document.getElementById("track");
+    if (!el || !track) { return; }
+
+    // Duplicate the frames so the loop has somewhere to run. The copies are
+    // decorative, so they are hidden from assistive tech.
+    Array.prototype.slice.call(track.children).forEach(function (node) {
+      var copy = node.cloneNode(true);
+      copy.setAttribute("aria-hidden", "true");
+      var img = copy.querySelector("img");
+      if (img) {
+        img.setAttribute("loading", "lazy");
+        img.removeAttribute("fetchpriority");
+        img.setAttribute("alt", "");
+      }
+      track.appendChild(copy);
+    });
+
+    // Manual scrolling still works under reduced motion. Nothing moves by itself.
+    if (reduced) { return; }
+
+    var SPEED = 0.35;          // px per frame, deliberately slow
+    var RESUME_AFTER = 1800;   // ms of stillness before the drift resumes
+    var paused = false;
+    var timer = null;
+    var carry = 0;
+
+    function hold(delay) {
+      paused = true;
+      clearTimeout(timer);
+      timer = setTimeout(function () { paused = false; }, delay);
+    }
+
+    ["pointerdown", "pointerenter", "wheel", "touchstart", "focusin"].forEach(function (evt) {
+      el.addEventListener(evt, function () { hold(RESUME_AFTER); }, { passive: true });
+    });
+    el.addEventListener("pointerleave", function () { hold(400); }, { passive: true });
+
+    // Nothing moves while the tab is hidden or the strip is off screen.
+    var onScreen = true;
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        onScreen = entries[0].isIntersecting;
+      }, { threshold: 0 }).observe(el);
+    }
+
+    function frame() {
+      if (!paused && onScreen && !document.hidden) {
+        var half = track.scrollWidth / 2;
+        if (half > 0) {
+          carry += SPEED;
+          var step = Math.floor(carry);
+          if (step >= 1) {
+            carry -= step;
+            el.scrollLeft += step;
+            // Wrap silently. At the halfway mark the copies look identical.
+            if (el.scrollLeft >= half) { el.scrollLeft -= half; }
+          }
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
 
   /* ---- Reveal on scroll ---- */
   var reveals = document.querySelectorAll(".reveal");

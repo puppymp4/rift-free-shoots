@@ -188,14 +188,21 @@ h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h4);
 }
 
 /* ---------- Hero ---------- */
-.hero { padding-block: var(--s-4xl) var(--s-3xl); position: relative; }
+:root { --strip-h: 230px; }
+@media (min-width: 640px)  { :root { --strip-h: 300px; } }
+@media (min-width: 1024px) { :root { --strip-h: 360px; } }
+
+.hero { padding-block: 0 var(--s-3xl); position: relative; }
 .hero::after {
   content: "";
   position: absolute; inset: 0;
-  background: radial-gradient(70% 60% at 12% 0%, rgba(0, 229, 255, 0.07), transparent 70%);
+  background: radial-gradient(70% 60% at 12% 100%, rgba(0, 229, 255, 0.06), transparent 70%);
   pointer-events: none;
 }
-.hero .wrap { position: relative; z-index: 1; }
+/* pulled up so the copy sits over the bottom of the frames */
+.hero-copy { position: relative; z-index: 2; margin-top: -56px; }
+@media (min-width: 768px) { .hero-copy { margin-top: -88px; } }
+
 .hero h1 { max-width: 16ch; }
 .hero .lead { margin-top: var(--s-lg); max-width: 58ch; }
 
@@ -209,43 +216,60 @@ h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h4);
 .trust-line li { display: flex; align-items: center; gap: var(--s-xs); }
 .trust-line li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--signal); flex: none; }
 
-/* ---------- Sample gallery ----------
-   The kitchen leads as a full-width band, then six tiles alternate subject so no
-   two shots of the same kind sit next to each other, across or down.
-   Phone: one column, every frame at its own ratio, nothing cropped.
-   Tablet and up: tiles share one ratio so the grid reads as a set. */
-.gallery { display: grid; gap: var(--s-sm); margin-top: var(--s-2xl); }
+/* ---------- Photo strip ----------
+   Fixed height, natural widths. The mixed ratios (3:2, 4:5, 1:1) become the
+   rhythm of the strip instead of a cropping problem. Runs full bleed, drifts
+   on its own via JS, and stays an ordinary scroll container so it can be
+   dragged or swiped. */
+.strip-wrap { position: relative; }
 
-.tile {
+.strip {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.strip::-webkit-scrollbar { display: none; }
+.strip:focus-visible { outline: 2px solid var(--signal); outline-offset: -2px; }
+
+.track {
+  display: flex;
+  gap: var(--s-xs);
+  width: max-content;
+  padding-inline: var(--s-xs);
+}
+
+.slide {
+  flex: none;
   margin: 0;
-  overflow: hidden;
+  height: var(--strip-h);
   border-radius: 8px;
+  overflow: hidden;
   background: var(--ink-3);
-  min-height: 0;
 }
-.tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.slide img { height: 100%; width: auto; display: block; }
 
-/* phone: native ratios */
-.t-band, .t-bath, .t-living, .t-ext { aspect-ratio: 3 / 2; }
-.t-evo, .t-cayman { aspect-ratio: 4 / 5; }
-.t-head { aspect-ratio: 1 / 1; }
+/* Height is fixed and the ratio is declared, so each frame's width is known
+   before its image arrives. Without these the strip reflows as photos load. */
+.s-wide   { aspect-ratio: 3 / 2; }
+.s-tall   { aspect-ratio: 4 / 5; }
+.s-square { aspect-ratio: 1 / 1; }
 
-/* keep the subject in frame once the tiles crop */
-.t-evo img    { object-position: center 62%; }
-.t-cayman img { object-position: center 58%; }
-.t-head img   { object-position: center 55%; }
-.t-ext img    { object-position: center 36%; }
-.t-band img   { object-position: center 55%; }
-
-@media (min-width: 640px) {
-  .gallery { grid-template-columns: 1fr 1fr; gap: var(--s-md); }
-  .t-band { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
-  .t-evo, .t-bath, .t-head,
-  .t-living, .t-cayman, .t-ext { aspect-ratio: 4 / 3; }
-}
-
-@media (min-width: 1024px) {
-  .gallery { grid-template-columns: repeat(3, 1fr); }
+/* The gradient sits outside the scroller so it stays put while frames pass under it. */
+.strip-fade {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 58%;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 10, 0) 0%,
+    rgba(10, 10, 10, 0.55) 42%,
+    rgba(10, 10, 10, 0.92) 76%,
+    var(--ink) 100%
+  );
 }
 
 /* ---------- The deal (compact row) ---------- */
