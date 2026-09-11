@@ -209,6 +209,36 @@ h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h4);
 .trust-line li { display: flex; align-items: center; gap: var(--s-xs); }
 .trust-line li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--signal); flex: none; }
 
+/* ---------- Sample gallery ----------
+   Mobile: one column, each frame at its own ratio.
+   Desktop: the portrait anchor spans two rows beside the stacked interiors,
+   with the exterior running full width underneath. */
+.gallery { display: grid; gap: var(--s-sm); margin-top: var(--s-2xl); }
+
+.tile {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--ink-3);
+  min-height: 0;
+}
+.tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.t-evo    { aspect-ratio: 4 / 5; }
+.t-bath,
+.t-living { aspect-ratio: 3 / 2; }
+.t-ext    { aspect-ratio: 3 / 2; }
+.t-ext img { object-position: center 45%; }
+
+@media (min-width: 768px) {
+  .gallery { grid-template-columns: 1fr 1fr; gap: var(--s-md); }
+  /* height comes from the two stacked interiors, so the anchor drops its ratio */
+  .t-evo    { grid-column: 1; grid-row: 1 / span 2; aspect-ratio: auto; }
+  .t-bath   { grid-column: 2; grid-row: 1; }
+  .t-living { grid-column: 2; grid-row: 2; }
+  .t-ext    { grid-column: 1 / -1; grid-row: 3; aspect-ratio: 16 / 9; }
+}
+
 /* ---------- The deal (compact row) ---------- */
 .deal-grid { display: grid; gap: var(--s-lg); margin-top: var(--s-2xl); }
 @media (min-width: 768px) { .deal-grid { grid-template-columns: repeat(3, 1fr); gap: var(--s-xl); } }
