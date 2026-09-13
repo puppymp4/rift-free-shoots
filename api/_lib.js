@@ -119,6 +119,7 @@ async function blobPut(pathname, body) {
       ...blobHeaders(),
       "x-content-type": "application/json",
       "x-add-random-suffix": "1", // unguessable URL
+      "x-vercel-blob-access": "public", // required by the blob API; payload itself is encrypted
     },
     body,
   });
