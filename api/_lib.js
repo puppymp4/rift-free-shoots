@@ -151,3 +151,14 @@ module.exports = {
   makeToken, verifyToken, checkPassword, isAuthed, sessionCookie, readCookie,
   encrypt, decrypt, blobPut, blobList, randomUUID,
 };
+
+async function blobDelete(urls) {
+  const res = await fetch(BLOB_API + "/delete", {
+    method: "POST",
+    headers: { ...blobHeaders(), "content-type": "application/json" },
+    body: JSON.stringify({ urls: Array.isArray(urls) ? urls : [urls] }),
+  });
+  if (!res.ok) throw new Error("blob delete failed: " + res.status);
+}
+
+module.exports.blobDelete = blobDelete;

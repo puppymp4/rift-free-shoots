@@ -58,6 +58,10 @@
   .card a { color: var(--signal); text-decoration: none; }
   .card a:hover { text-decoration: underline; }
 
+  .del { background: none; border: 0; color: var(--paper-mute); font-size: 20px;
+         line-height: 1; cursor: pointer; padding: 0 0 0 8px; }
+  .del:hover { color: var(--danger); }
+
   .empty { border: 1px dashed var(--line-strong); border-radius: 12px;
            padding: 48px 24px; text-align: center; color: var(--paper-mute); }
 </style>
@@ -135,7 +139,7 @@
         '<div class="card">' +
           '<div class="top">' +
             '<span class="biz">' + esc(r["Business name"]) + '</span>' +
-            '<span class="when">' + esc(when(r.createdAt)) + '</span>' +
+            '<span class="when">' + esc(when(r.createdAt)) + ' <button class="del" data-id="' + esc(r.id) + '" title="Delete">&times;</button></span>' +
           '</div>' +
           '<div class="who">' + esc(r.Name) + '</div>' +
           '<div class="rows">' +
@@ -195,6 +199,24 @@
       rows = [];
       show(false);
     });
+  });
+
+  cards.addEventListener("click", function (e) {
+    var btn = e.target.closest(".del");
+    if (!btn) return;
+    if (!confirm("Delete this application? This cannot be undone.")) return;
+    btn.disabled = true;
+    fetch("/api/admin/delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: btn.getAttribute("data-id") })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j.ok) { alert(j.error || "Could not delete."); btn.disabled = false; return; }
+        return load();
+      })
+      .catch(function () { alert("Could not delete."); btn.disabled = false; });
   });
 
   document.getElementById("csv").addEventListener("click", function () {

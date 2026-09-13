@@ -78,7 +78,6 @@ module.exports = async (req, res) => {
     return res.redirect(303, "/thanks");
   } catch (err) {
     console.error("apply failed:", err && err.message);
-    const diag = req.query && req.query.diag === "1" ? " [" + (err && err.message) + "]" : "";
-    return res.status(500).send("Something broke on my end. Text me instead and I will sort it out." + diag);
+    return res.status(500).send("Something broke on my end. Text me instead and I will sort it out.");
   }
 };
