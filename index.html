@@ -223,15 +223,11 @@
       <p class="lead section-intro">Four questions. Under a minute.</p>
 
       <form id="apply-form"
-            action="https://formsubmit.co/rift.clb.media@gmail.com"
+            action="/api/apply"
             method="POST"
             novalidate>
 
-        <!-- FormSubmit config -->
-        <input type="hidden" name="_subject" value="Free shoot application">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_next" value="https://shoot.riftmedia.cc/thanks">
+        <!-- honeypot only; posts to /api/apply -->
         <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
 
         <div class="field">
