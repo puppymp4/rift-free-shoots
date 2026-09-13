@@ -113,7 +113,9 @@ function blobHeaders() {
 }
 
 async function blobPut(pathname, body) {
-  const res = await fetch(BLOB_API + "/" + pathname, {
+  // API v12 takes the pathname as a query param, not a URL path.
+  const params = new URLSearchParams({ pathname });
+  const res = await fetch(BLOB_API + "/?" + params.toString(), {
     method: "PUT",
     headers: {
       ...blobHeaders(),
